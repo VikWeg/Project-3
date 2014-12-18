@@ -1,15 +1,7 @@
-% predictionfile=fopen('prediction.txt','w+');
-% fclose(predictionfile);
+
 % N=length(TrainingData.textdata);
-% TrainingFeatureVector=importdata('C:\ETH\MatLabCode\MachineLearning\Project-3\TrainingFeatures.csv');
-
-% TrainingFeatureVector=zeros(N,857);
+% TrainingFeatureVector=importdata('C:\ETH\Lectures\MATLAB\MachineLearning\TrainingFeatures.csv');
 % 
-% i=1;while i<=N
-%     TrainingFeatureVector(i,1:857)=[TrainingFeatures{i,1}{:}];
-%     i=i+1;
-% end
-
 % citycodes=unique(TrainingData.data(:,1));
 % 
 % BalancedTrainingSet=zeros(40*857,857+1);
@@ -30,24 +22,37 @@
 % ShuffledIndices=randperm(40*857);
 % BalancedTrainingSet=BalancedTrainingSet(ShuffledIndices,:);
 % 
-NB=length(BalancedTrainingSet);
-clear predictions
+% NB=length(BalancedTrainingSet);
+%clear predictions
 
-% B=TreeBagger(1,TrainingFeatureVector(101:N,:),TrainingData.data(101:N,1));
+%B=TreeBagger(1,TrainingFeatureVector(101:N,:),TrainingData.data(101:N,1));
 
-% ,'CrossVal','off','KFold',2
+%,'CrossVal','off','KFold',2
 % tic;
-% B=fitctree(BalancedTrainingSet(101:NB,1:857),BalancedTrainingSet(101:NB,858));
+% B=fitctree(BalancedTrainingSet(501:NB,1:857),BalancedTrainingSet(501:NB,858));
 % toc;
 
-tic;
-parfor i=1:100
-
-    predictions(i)=predict(B,BalancedTrainingSet(i,1:857));
-    
-end
-toc;
+% predictions=zeros(height(ValidationData),1);
+% tic;
+% parfor i=1:height(ValidationData)
+% 
+%     predictions(i)=predict(B,ValidationFeatureVector(i,1:857));
+%     
+% end
+% toc;
  
 %predictions=cellfun(@str2num,predictions)';
-sum(predictions'~=TrainingData.data(ShuffledIndices(1:100),1))
+%sum(predictions'~=TrainingData.data(ShuffledIndices(1:100),1))
 
+predictionfile=fopen('prediction.csv','w+');
+
+i=0;while i<=height(ValidationData)
+    if i==0
+        fprintf(predictionfile,'%d,%d\n',FirstValidCity,FirstValidCountry);
+    else
+        fprintf(predictionfile,'%d,%d\n',predictions(i),PredictCountry(predictions(i)));  
+    end
+    i=i+1;
+end
+
+fclose(predictionfile);
