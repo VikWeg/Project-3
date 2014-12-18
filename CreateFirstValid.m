@@ -4,6 +4,6 @@ FirstValidFeatures={CreateBagScores(FirstValid,representatives)};
 
 FirstValidFeatureVector=[FirstValidFeatures{1}{:}];
 
-FirstValidCity=predict(B,FirstValidFeatureVector);
-
+FirstValidCity=predict(C,FirstValidFeatureVector);
+%str2num(FirstValidCity{1})
 FirstValidCountry=PredictCountry(FirstValidCity);
