@@ -3,16 +3,16 @@
 % List all city names associated with a city code
 % (might include wrong assignments)
 
-% countrycodes=unique(TrainingData.data(:,2));
-% citycodes=unique(TrainingData.data(:,1));
-% 
-% ACitysNames=cell(857,857);
-%  i=1;while i<=857
-%      
-%         OneCity=find(TrainingData.data(:,1)==citycodes(i));
-%         ACitysNames(1:length(OneCity),i)=TrainingData.textdata(OneCity);
-%     i=i+1;
-%     end 
+countrycodes=unique(TrainingData.data(:,2));
+citycodes=unique(TrainingData.data(:,1));
+
+ACitysNames=cell(857,857);
+ i=1;while i<=857
+     
+        OneCity=find(TrainingData.data(:,1)==citycodes(i));
+        ACitysNames(1:length(OneCity),i)=TrainingData.textdata(OneCity);
+    i=i+1;
+    end 
 %% A country's city codes
 % List all city codes associated with a country
  
@@ -40,16 +40,16 @@
 % including all varieties (capitaliztation, etc.)
 
 
-AllWords=cell(length(TrainingData.textdata),50);
-AllWords(:,:)= cellstr('BLANK');
-
-i=1;while i<=length(TrainingData.textdata)
-       CurrentCityName=TrainingData.textdata(i);
-       AllWords( i , 1:length( strsplit(CurrentCityName{1}) ) )= strsplit(CurrentCityName{1});
-    i=i+1;
-    end
- 
-Dictionary=unique(lower(AllWords));
+% AllWords=cell(length(TrainingData.textdata),50);
+% AllWords(:,:)= cellstr('BLANK');
+% 
+% i=1;while i<=length(TrainingData.textdata)
+%        CurrentCityName=TrainingData.textdata(i);
+%        AllWords( i , 1:length( strsplit(CurrentCityName{1}) ) )= strsplit(CurrentCityName{1});
+%     i=i+1;
+%     end
+%  
+% Dictionary=unique(lower(AllWords));
 %% Alphabet
 %List all possible characters over all countries
  
