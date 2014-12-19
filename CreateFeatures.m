@@ -1,6 +1,6 @@
 
-%% Dictionary
-% List all words (converted to lower case) that occur in TrainingData
+% %% Dictionary
+% % List all words (converted to lower case) that occur in TrainingData
 
 
 AllWords=cell(length(TrainingData.textdata),50);
@@ -34,6 +34,23 @@ Alphabet(17)=[];
 N=length(TrainingData.textdata);
 TrainingFeatures=cell(N,1);
 
+TwoGrams={' #',' t','et','ge','hd','mg','my','nj','nx','pf','pl','pm','q-','qo','qq','yl',...
+    'xf',' o','ir',' c',' d','bx','by','cm','dx','fb','fn','fq','mb','mq','na','nb','qa','qb','qf','qi','qs','se','wb','xx'};
+% i=1;
+% while i<=10
+% TwoGrams{i}=datasample([Alphabet{17:end}],2);
+% i=i+1;
+% end
+% TwoGrams=unique(TwoGrams);
+
+% ThreeGrams=cell(10,1);
+% i=1;
+% while i<=10
+% ThreeGrams{i}=datasample([Alphabet{17:end}],3);
+% i=i+1;
+% end
+% ThreeGrams=unique(ThreeGrams);
+
 tic;
 parfor i = 1:N
     
@@ -45,10 +62,10 @@ parfor i = 1:N
       f3 = max(cellfun(@length,CityWords));             % Maximum word-length in CityName
       f4 = min(cellfun(@length,CityWords));             % Minimum word-length in CityName
       f5 = median(cellfun(@length,CityWords));          % Median word-length in CityName
-      f6 = sum(isstrprop(CityName,'upper'));            % Number of upper-case letters in CityName
-      
+      %f6 = sum(isstrprop(CityName,'upper'));            % Number of upper-case letters in CityName
+      f6= CountEachNGram(CityName,TwoGrams);
       f7 = CountEachLetter(CityName,Alphabet);          % This feature contains a number of "length(Alphabet)" subfeatures.
-                                                        % It lists how often a particular letter is contained in CityName.
+      %f8= CountEachNGram(CityName,ThreeGrams);                                        % It lists how often a particular letter is contained in CityName.
                       
       
       TrainingFeatures(i)={[f1 f2 f3 f4 f5 f6 f7]};     % Merge features together
@@ -83,9 +100,10 @@ parfor i = 1:N
       f3 = max(cellfun(@length,CityWords));
       f4 = min(cellfun(@length,CityWords));
       f5 = median(cellfun(@length,CityWords));
-      f6 = sum(isstrprop(CityName,'upper'));
-      
+      %f6 = sum(isstrprop(CityName,'upper'));
+      f6= CountEachNGram(CityName,TwoGrams);
       f7 = CountEachLetter(CityName,Alphabet);
+      %f8= CountEachNGram(CityName,ThreeGrams);  
       
       ValidationFeatures(i)={[f1 f2 f3 f4 f5 f6 f7]};
 end

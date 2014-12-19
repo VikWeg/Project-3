@@ -1,27 +1,30 @@
-if exist('predictions')
-
-else
-predictions=importdata('C:\ETH\Lectures\MATLAB\MachineLearning\allpredictions.csv');
-end
 
 NV=length(ValidationData);
-newpredictions=zeros(NV,1);
+NumTrees=2;
+
+prediction=zeros(NV,NumTrees);
+T=cell(1,NumTrees);
+
+parfor i=1:NumTrees
+T{i}=fitctree(TrainFeatures,TrainingData.data(:,1),'Prior','empirical','MinLeafSize',5,'NumVariablesToSample',50,'MaxNumCategories',857);
+T{i}=compact(prune(T{i}));
+end
+
+j=1;while j<=NumTrees
+    
+newprediction=zeros(NV,1);
+
 tic;
 parfor i=1:NV
     
-    %pred=predict(A,ValidationFeatureVector(i,1:857));
-    %predictions(i)=str2double(pred{1});
+    newprediction(i,1)=predict(T{j},ValidFeatures(i,:));
 
-    newprediction(i)=predict(A,ValidFeatures(i,:));
-    %predictions(i)=predict(A,ValidFeatures(i,:));
 end
 toc;
- 
-newlength=size(predictions,2)+1;
-i=1;
-while i<=NV
-    predictions(i,newlength)= newprediction(i);
-i=i+1;
+
+prediction(:,j)=newprediction;
+
+j=j+1;
 end
 
 predictionfile=fopen('prediction.csv','w+');
@@ -29,7 +32,7 @@ predictionfile=fopen('prediction.csv','w+');
 i=1;
 while i<=NV
     
-    fprintf(predictionfile,'%d,%d\n',mode(predictions(i,:)),PredictCountry(mode(predictions(i,:))));  
+    fprintf(predictionfile,'%d,%d\n',mode(prediction(i,:)),PredictCountry(mode(prediction(i,:))));  
 i=i+1;
 end
 
