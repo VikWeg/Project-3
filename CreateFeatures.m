@@ -86,13 +86,13 @@ end
 %% Create Validation Features
 % Analogous to Training Features
 
-N=length(ValidationData);
-
+N=length(TestData);
+ValidationFeatures=cell(N,1);
 tic;
 parfor i = 1:N
     
         %ValidationFeatures(i)={CreateBagScores(lower([ValidationData{i,1}{:}]),representatives)};
-      CityName=lower(ValidationData{i});
+      CityName=lower(TestData{i});
       CityWords=strsplit(CityName);
       
       f1 = length(CityName);

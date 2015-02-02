@@ -1,12 +1,12 @@
 
-NV=length(ValidationData);
-NumTrees=2;
+NV=length(TestData);
+NumTrees=1;
 
 prediction=zeros(NV,NumTrees);
 T=cell(1,NumTrees);
 
 parfor i=1:NumTrees
-T{i}=fitctree(TrainFeatures,TrainingData.data(:,1),'Prior','empirical','MinLeafSize',5,'NumVariablesToSample',50,'MaxNumCategories',857);
+T{i}=fitctree(TrainFeatures,TrainingData.data(:,1),'Prior','empirical','MinLeafSize',5,'NumVariablesToSample',86,'MaxNumCategories',857);
 T{i}=compact(prune(T{i}));
 end
 
